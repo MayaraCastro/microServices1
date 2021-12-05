@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "query-string": "^7.0.1",
     "vue": "^2.6.14"
   }
 }

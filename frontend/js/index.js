@@ -2,6 +2,84 @@ $(document).ready(function() {
     /**
      * Add evento de click
      */
+    function recomendSong () {
+        var request = new XMLHttpRequest()
+
+        // Open a new connection, using the GET request on the URL endpoint
+        request.open('GET', 'http://127.0.0.1:8000/songRecomendation/', true)
+
+        request.onload = function (response) {
+            var item = JSON.parse(response.target.response)
+
+            $recomendedSong = $('#recomendedSong');
+            $('#song').remove();
+            $div = $('<div id="song">');
+            $recomendedSong.append($div);
+
+
+            $label = $('<label>').appendTo($div);
+
+            $('<big>')
+                .appendTo($label)
+                .append(item.title);
+
+            $label.append(" - "
+            );
+
+            $('<small>')
+                .appendTo($label)
+                .append(item.singer);
+
+            $('.js-novo-livro, .js-novo-autor').val('');
+            // Begin accessing JSON data here
+        }
+        // Send request
+        request.send()
+    }
+
+
+    function recomendPlaylist () {
+        var request = new XMLHttpRequest()
+
+        // Open a new connection, using the GET request on the URL endpoint
+        request.open('POST', 'http://127.0.0.1:8000/songRecomendation/', true)
+        request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            request.onload = function (response) {
+                var data = JSON.parse(response.target.response)
+                $('#playlist-content').remove();
+                $ul = $('<ul id="playlist-content">').appendTo('#playlist');
+                data.forEach(item => {
+                    $li = $('<li>').appendTo($ul);
+                    $label = $('<label>').appendTo($div);
+                    $('<input>')
+                        .attr('type', 'checkbox')
+                        .addClass('js-livro')
+                        .attr('name', 'list')
+                        .click(toggleRemovido)
+                        .appendTo($label);
+
+                    $('<big>')
+                        .appendTo($label)
+                        .append(item.title);
+
+                    $label.append(" - "
+                    );
+
+                    $('<small>')
+                        .appendTo($label)
+                        .append(item.singer);
+
+                    $('.js-novo-livro, .js-novo-autor').val('');
+                    // Begin accessing JSON data here
+                })
+        }
+
+        // Send request
+        playlistSize = $('.js-playlist-size').val();
+        var data = JSON.stringify({'length': parseInt(playlistSize)});
+        // Send request
+        request.send(data)
+    }
     getSongs();
     function getSongs() {
         // Create a request variable and assign a new XMLHttpRequest object to it.
@@ -95,17 +173,12 @@ $(document).ready(function() {
 
         // Open a new connection, using the GET request on the URL endpoint
         request.open('POST', 'http://127.0.0.1:8000/song/', true)
+        request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-        request.onload = function (response) {
-            console.log(response)
-            var data = JSON.parse(response.target.response)
-            console.log(data)
-
-        }
-var querystring = require('querystring');
-        var data = querystring.stringify({'title': livro,
+        var new_song = {'title': livro,
             'singer': autor,
-        'genre': 'test'});
+        'genre': 'test'};
+        var data = JSON.stringify(new_song);
         // Send request
         request.send(data)
 
@@ -121,4 +194,6 @@ var querystring = require('querystring');
     }
     $('.js-add').click(onAdd);
     $('.js-livro').click(toggleRemovido);
+    $('.js-recomend').click(recomendSong);
+    $('.js-recomend-playlist').click(recomendPlaylist);
 });
