@@ -32,7 +32,8 @@ def recomendations(request):
     elif request.method == 'POST':  # user posting data
         snippets = Song.objects.all()
         recomendation = []
-        for i in range(request.data['length']):
+        while request.data['length'] != len(recomendation) \
+            or (recomendation != len(snippets) and len(snippets) < request.data['length']):
             song = snippets[random.randint(0, len(snippets) - 1)]
             if song not in recomendation:
                 recomendation.append(song)
