@@ -6,7 +6,7 @@ $(document).ready(function() {
         var request = new XMLHttpRequest()
 
         // Open a new connection, using the GET request on the URL endpoint
-        request.open('GET', 'http://127.0.0.1:8000/songRecomendation/', true)
+        request.open('GET', 'http://0.0.0.0/songRecomendation/', true)
 
         request.onload = function (response) {
             var item = JSON.parse(response.target.response)
@@ -42,7 +42,7 @@ $(document).ready(function() {
         var request = new XMLHttpRequest()
 
         // Open a new connection, using the GET request on the URL endpoint
-        request.open('POST', 'http://127.0.0.1:8000/songRecomendation/', true)
+        request.open('POST', 'http://0.0.0.0/songRecomendation/', true)
         request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             request.onload = function (response) {
                 var data = JSON.parse(response.target.response)
@@ -50,13 +50,7 @@ $(document).ready(function() {
                 $ul = $('<ul id="playlist-content">').appendTo('#playlist');
                 data.forEach(item => {
                     $li = $('<li>').appendTo($ul);
-                    $label = $('<label>').appendTo($div);
-                    $('<input>')
-                        .attr('type', 'checkbox')
-                        .addClass('js-livro')
-                        .attr('name', 'list')
-                        .click(toggleRemovido)
-                        .appendTo($label);
+                    $label = $('<label>').appendTo($li);
 
                     $('<big>')
                         .appendTo($label)
@@ -86,7 +80,7 @@ $(document).ready(function() {
         var request = new XMLHttpRequest()
 
         // Open a new connection, using the GET request on the URL endpoint
-        request.open('GET', 'http://127.0.0.1:8000/song/', true)
+        request.open('GET', 'http://0.0.0.0/song/', true)
 
         request.onload = function (response) {
             console.log(response)
@@ -172,7 +166,7 @@ $(document).ready(function() {
         var request = new XMLHttpRequest()
 
         // Open a new connection, using the GET request on the URL endpoint
-        request.open('POST', 'http://127.0.0.1:8000/song/', true)
+        request.open('POST', 'http://0.0.0.0/song/', true)
         request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
         var new_song = {'title': livro,

@@ -1,0 +1,19 @@
+recomendation:
+  restart: always
+  build: ./recomendation
+  expose:
+    - "8000"
+  environment:
+    DEBUG: 'true'
+
+nginx:
+  restart: always
+  build: ./recomendation/nginx
+  ports:
+    - "80:80"
+  volumes:
+    - ./recomendation:/usr/src/app
+  volumes_from:
+    - recomendation
+  links:
+    - recomendation:recomendation
